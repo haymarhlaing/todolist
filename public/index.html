@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — Modern To-Do List</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body data-theme="light">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       AUTH PAGE (shown when not logged in)
+       ═════════════════════════════════════════════════════════════════════ -->
+  <div id="auth-page" class="auth-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <i class="fa-solid fa-list-check auth-logo"></i>
+        <h1>TaskFlow</h1>
+        <p>Organize your work, track your progress</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Login</button>
+        <button class="auth-tab" data-tab="register">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="login-email"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+        <p id="login-error" class="form-error"></p>
+      </form>
+
+      <!-- Register Form (hidden by default) -->
+      <form id="register-form" class="auth-form hidden">
+        <div class="form-group">
+          <label for="reg-username"><i class="fa-solid fa-user"></i> Username</label>
+          <input type="text" id="reg-username" placeholder="Choose a username" required minlength="3" />
+        </div>
+        <div class="form-group">
+          <label for="reg-email"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="reg-password" placeholder="At least 6 characters" required minlength="6" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          <i class="fa-solid fa-user-plus"></i> Register
+        </button>
+        <p id="register-error" class="form-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       APP PAGE (shown when logged in)
+       ═════════════════════════════════════════════════════════════════════ -->
+  <div id="app-page" class="app-page hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fa-solid fa-list-check"></i>
+        <span>TaskFlow</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-filter="all">
+          <i class="fa-solid fa-house"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-filter="pending">
+          <i class="fa-solid fa-clock"></i>
+          <span>Pending</span>
+        </a>
+        <a href="#" class="nav-item" data-filter="in-progress">
+          <i class="fa-solid fa-spinner"></i>
+          <span>In Progress</span>
+        </a>
+        <a href="#" class="nav-item" data-filter="completed">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Completed</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="dark-mode-toggle" class="btn-icon" title="Toggle dark mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <div class="user-info-sidebar">
+          <i class="fa-solid fa-circle-user"></i>
+          <span id="sidebar-username">User</span>
+        </div>
+        <button id="logout-btn-sidebar" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menu-toggle" class="btn-icon" title="Toggle sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h2 id="page-title">Dashboard</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Search tasks..." />
+          </div>
+          <button id="add-task-btn" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> <span class="btn-text">New Task</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Cards -->
+      <section class="stats-grid">
+        <div class="stat-card stat-total">
+          <div class="stat-icon"><i class="fa-solid fa-list-ol"></i></div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-total">0</span>
+            <span class="stat-label">Total Tasks</span>
+          </div>
+        </div>
+        <div class="stat-card stat-pending">
+          <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-pending">0</span>
+            <span class="stat-label">Pending</span>
+          </div>
+        </div>
+        <div class="stat-card stat-completed">
+          <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-completed">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+        </div>
+        <div class="stat-card stat-overdue">
+          <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="stat-info">
+            <span class="stat-number" id="stat-overdue">0</span>
+            <span class="stat-label">Overdue</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filters Bar -->
+      <section class="filters-bar">
+        <div class="filter-group">
+          <label>Priority:</label>
+          <select id="filter-priority">
+            <option value="">All Priorities</option>
+            <option value="high">🔴 High</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="low">🟢 Low</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Status:</label>
+          <select id="filter-status">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort:</label>
+          <select id="sort-by">
+            <option value="createdAt">Newest First</option>
+            <option value="dueDate">Due Date</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Task List -->
+      <section class="task-list-container">
+        <div id="task-list" class="task-list">
+          <!-- Tasks rendered dynamically -->
+        </div>
+        <div id="empty-state" class="empty-state hidden">
+          <i class="fa-solid fa-clipboard-list"></i>
+          <h3>No tasks found</h3>
+          <p>Click "New Task" to add your first task</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TASK MODAL (Add / Edit)
+       ═════════════════════════════════════════════════════════════════════ -->
+  <div id="task-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">New Task</h3>
+        <button id="modal-close" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id" />
+
+        <div class="form-group">
+          <label for="task-title">Title <span class="required">*</span></label>
+          <input type="text" id="task-title" placeholder="What needs to be done?" required maxlength="200" />
+        </div>
+
+        <div class="form-group">
+          <label for="task-description">Description</label>
+          <textarea id="task-description" rows="3" placeholder="Add details (optional)" maxlength="2000"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="medium">🟡 Medium</option>
+              <option value="high">🔴 High</option>
+              <option value="low">🟢 Low</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-status">Status</label>
+            <select id="task-status">
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="task-due-date">Due Date</label>
+          <input type="date" id="task-due-date" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Save Task
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       DELETE CONFIRMATION MODAL
+       ═════════════════════════════════════════════════════════════════════ -->
+  <div id="delete-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3>Delete Task</h3>
+        <button id="delete-modal-close" class="btn-icon"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p>Are you sure you want to delete <strong id="delete-task-name"></strong>?</p>
+      <div class="modal-actions">
+        <button type="button" id="delete-cancel" class="btn btn-outline">Cancel</button>
+        <button type="button" id="delete-confirm" class="btn btn-danger">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
