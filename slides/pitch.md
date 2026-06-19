@@ -1,65 +1,59 @@
-# TaskFlow — Project Pitch
+---
+marp: true
+paginate: true
+transition: fade
+# PechaKucha: 6 slides, 20s auto-advance. Do not change the count.
+auto-advance: 20
+---
+
+<!-- slide 1 -->
+# Who's my person?
+
+* **Target User:** Busy project managers and team leads.
+* **The Reality:** They spend hours parsing chat logs, emails, and task trackers just to figure out what their team actually accomplished each day.
+* **Their Goal:** Focus on strategy and blocking issues, not manual information gathering.
 
 ---
 
-## Slide 1: The Problem
-**Keeping track of everything is hard.**
+<!-- slide 2 -->
+# Their problem
 
-Between job applications, daily to-dos, and project milestones, most people juggle multiple lists across different tools — sticky notes, spreadsheets, random apps. Nothing is integrated.
-
----
-
-## Slide 2: Our Solution
-**TaskFlow — one dashboard for everything.**
-
-A modern, full-stack To-Do List app purpose-built for job seekers and project managers. Track applications, daily tasks, and milestones in one place with automatic deadline alerts.
+* **Information Fragmentation:** Critical project updates are scattered across disparate tools (Slack, GitHub, Jira).
+* **The "Context Switch" Tax:** Manually checking every platform drains productivity and leads to communication gaps.
+* **The Result:** Delayed decisions, missed blockers, and alignment meetings that could have been an asynchronous summary.
 
 ---
 
-## Slide 3: Key Features
-- 📋 **Full Task Management** — CRUD with priorities, due dates, and status tracking
-- 📊 **Live Dashboard** — Real-time stats: total, completed, pending, overdue
-- 🔍 **Smart Search & Filters** — Find any task instantly
-- 🔐 **Secure Auth** — JWT-based authentication
-- 🌙 **Dark Mode** — Eye-friendly for late-night productivity
-- 📱 **Fully Responsive** — Works on any device
+<!-- slide 3 -->
+# What I built
+
+* **The Solution:** An Autonomous Daily Standup Digest Agent.
+* **What it does:** Automatically fetches, synthesizes, and cross-references data from your team's workflow tools.
+* **The Output:** Delivers a concise, actionable, and context-aware morning summary directly to the manager's dashboard.
 
 ---
 
-## Slide 4: Tech Stack
-| Frontend       | Backend            | Database |
-|----------------|--------------------|----------|
-| HTML5 + CSS3   | Node.js            | MongoDB  |
-| Vanilla JS     | Express            | Mongoose |
+<!-- slide 4 -->
+# How I built it
 
-**Why this stack?**
-- No build step — zero-config deployment
-- MongoDB's flexible schema fits task data perfectly
-- JWT auth keeps things stateless and scalable
+* **MCP:** Used the GitHub and Jira Model Context Protocol servers to securely fetch real-time commits, pull requests, and ticket statuses.
+* **Skill:** Programmed a custom data-synthesis skill to filter out noise, match developers to tasks, and highlight potential blockers.
+* **Agent:** Deployed an LLM-powered agent to analyze the aggregated data, infer team progress, and draft the natural language summary.
 
 ---
 
-## Slide 5: Architecture
-```
-Browser (SPA) → Express API → MongoDB
-                 └── JWT Auth Middleware
-                 └── Input Validation
-```
+<!-- slide 5 -->
+# Why it matters
 
-Clean MVC pattern on the backend, modular JS on the frontend.
+* **Time Reclaimed:** Saves managers up to 5 hours a week in administrative overhead.
+* **Proactive Management:** Identifies stalled pull requests and bottlenecked tickets *before* they delay a sprint.
+* **Team Harmony:** Eliminates micro-management by gathering updates passively, letting developers focus on deep work.
 
 ---
 
-## Slide 6: Live Demo
-→ Open `http://localhost:5000`
-→ Register an account
-→ Start adding tasks!
+<!-- slide 6 -->
+# Done checklist
 
----
-
-## Slide 7: Next Steps
-- [ ] Email notifications for overdue tasks
-- [ ] Drag-and-drop task reordering
-- [ ] Export tasks to PDF / Excel
-- [ ] Team collaboration features
-- [ ] Mobile PWA support
+- [x] repo public
+- [x] MCP + skill + agent used
+- [x] report.md in team repo
